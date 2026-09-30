@@ -1,0 +1,1327 @@
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+.videoMeetPage {
+    width: 100%;
+    min-height: 100vh;
+    background: #0b0b0c;
+    color: #ffffff;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+
+/* =====================================================
+   LOBBY
+===================================================== */
+
+.lobbyPage {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 75% 35%,
+            rgba(255, 126, 0, 0.10),
+            transparent 30%
+        ),
+        #0b0b0c;
+}
+
+
+/* HEADER */
+
+.lobbyHeader {
+    height: 76px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #222;
+}
+
+
+.meetoraBrand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.meetoraBrand > span span,
+.meetingBrand > span span {
+    color: #ff7a00;
+}
+
+
+.brandCamera {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #ff7a00;
+
+    color: #111;
+
+    box-shadow:
+        0 8px 25px rgba(255, 122, 0, 0.25);
+}
+
+.brandCamera svg {
+    font-size: 22px;
+}
+
+
+.brandCamera.small {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 9px;
+}
+
+.brandCamera.small svg {
+    font-size: 19px;
+}
+
+
+.lobbySecure {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    color: #999;
+}
+
+
+.statusDot,
+.onlineDot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #3ddc84;
+
+    box-shadow:
+        0 0 10px rgba(61, 220, 132, 0.7);
+}
+
+
+/* LOBBY CONTENT */
+
+.lobbyContent {
+    width: 88%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    min-height: calc(100vh - 76px);
+
+    display: grid;
+    grid-template-columns: 1.35fr 0.85fr;
+
+    align-items: center;
+
+    gap: 70px;
+}
+
+
+/* PREVIEW */
+
+.lobbyPreview {
+    background: #151516;
+
+    border: 1px solid #292929;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+
+.previewHeader {
+    height: 58px;
+
+    padding: 0 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #ddd;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.liveIndicator {
+    color: #4ade80;
+
+    font-size: 13px;
+}
+
+
+.previewVideoWrapper {
+    position: relative;
+
+    height: 480px;
+
+    background: #222;
+}
+
+
+.previewVideoWrapper video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transform: scaleX(-1);
+
+    background: #171717;
+}
+
+
+.cameraOffMessage {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    color: #999;
+
+    background: #171717;
+}
+
+
+.cameraOffMessage svg {
+    font-size: 42px;
+}
+
+
+.previewControls {
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    border-top: 1px solid #292929;
+
+    background: #151516;
+}
+
+
+.previewControl {
+    appearance: none;
+    -webkit-appearance: none;
+
+    min-width: 150px;
+    height: 42px;
+
+    padding: 0 15px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: 1px solid #303030;
+    border-radius: 10px;
+
+    background: #202020;
+    color: #d8d8d8;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.previewControl svg {
+    font-size: 18px;
+    color: #ff7a00;
+}
+
+
+.previewControl:hover:not(:disabled) {
+    background: #292929;
+    border-color: rgba(255, 122, 0, 0.45);
+
+    transform: translateY(-1px);
+}
+
+
+.previewControl.enabled {
+    background: rgba(61, 220, 132, 0.08);
+    border-color: rgba(61, 220, 132, 0.25);
+    color: #e8e8e8;
+}
+
+
+.previewControl.enabled svg {
+    color: #4ade80;
+}
+
+
+.previewControl.disabled {
+    background: rgba(255, 122, 0, 0.10);
+    border-color: rgba(255, 122, 0, 0.30);
+    color: #ff9a45;
+}
+
+
+.previewControl.disabled svg {
+    color: #ff7a00;
+}
+
+
+.previewControl:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+
+.cameraOffMessage {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    background: rgba(12, 12, 12, 0.92);
+
+    color: #ffffff;
+
+    z-index: 2;
+}
+
+
+.cameraOffMessage svg {
+    font-size: 42px;
+    color: #ff7a00;
+}
+
+
+.cameraOffMessage span {
+    font-size: 14px;
+    color: #999;
+}
+
+
+/* LOBBY CARD */
+
+.lobbyCard {
+    padding: 10px 10px 20px;
+}
+
+
+.lobbyIcon {
+    width: 54px;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: rgba(255, 122, 0, 0.12);
+
+    color: #ff7a00;
+}
+
+
+.lobbyIcon svg {
+    font-size: 27px;
+}
+
+
+.lobbyEyebrow {
+    margin-top: 30px;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #ff7a00;
+}
+
+
+.lobbyCard h1 {
+    margin: 10px 0;
+
+    font-size: 42px;
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+}
+
+
+.lobbyDescription {
+    color: #8d8d8d;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    margin-bottom: 35px;
+}
+
+
+.nameField label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-size: 13px;
+
+    color: #c8c8c8;
+}
+
+
+.nameField .MuiTextField-root {
+    background: #151515;
+
+    border-radius: 10px;
+}
+
+
+.nameField .MuiOutlinedInput-root {
+    color: white;
+}
+
+
+.nameField .MuiOutlinedInput-notchedOutline {
+    border-color: #333;
+}
+
+
+.nameField
+.MuiOutlinedInput-root:hover
+.MuiOutlinedInput-notchedOutline {
+    border-color: #555;
+}
+
+
+.nameField
+.MuiOutlinedInput-root.Mui-focused
+.MuiOutlinedInput-notchedOutline {
+    border-color: #ff7a00;
+}
+
+
+.nameField input::placeholder {
+    color: #666;
+
+    opacity: 1;
+}
+
+
+.joinMeetingButton {
+    height: 54px !important;
+
+    margin-top: 22px !important;
+
+    background: #ff7a00 !important;
+
+    color: #111 !important;
+
+    border-radius: 10px !important;
+
+    text-transform: none !important;
+
+    font-size: 16px !important;
+
+    font-weight: 700 !important;
+
+    display: flex !important;
+
+    justify-content: space-between !important;
+
+    padding: 0 20px !important;
+
+    box-shadow:
+        0 12px 30px rgba(255, 122, 0, 0.18) !important;
+}
+
+
+.joinMeetingButton:hover {
+    background: #ff8a1a !important;
+}
+
+
+.lobbyNote {
+    margin-top: 20px;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    color: #666;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   ACTUAL MEETING
+===================================================== */
+
+.meetingPage {
+    height: 100vh;
+
+    overflow: hidden;
+
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(255, 122, 0, 0.07),
+            transparent 30%
+        ),
+        #090909;
+}
+
+
+/* TOP BAR */
+
+.meetingHeader {
+    height: 70px;
+
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #202020;
+
+    background: rgba(12, 12, 12, 0.95);
+
+    position: relative;
+
+    z-index: 10;
+}
+
+
+.meetingBrand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.meetingInfo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #d0d0d0;
+
+    font-size: 14px;
+}
+
+
+.meetingActions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.participantCount {
+    height: 34px;
+
+    padding: 0 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    border-radius: 8px;
+
+    background: #171717;
+
+    border: 1px solid #292929;
+
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+
+.participantCount svg {
+    font-size: 17px;
+}
+
+
+.meetingCode {
+    padding: 8px 12px;
+
+    border-radius: 7px;
+
+    background: rgba(255, 122, 0, 0.08);
+
+    border: 1px solid rgba(255, 122, 0, 0.25);
+
+    color: #ff8b25;
+
+    font-size: 12px;
+
+    font-family: monospace;
+}
+
+
+/* VIDEO AREA */
+
+.meetingMain {
+    height: calc(100vh - 70px);
+
+    padding: 25px;
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.videoGrid {
+    width: 100%;
+
+    height: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 14px;
+
+    padding-bottom: 65px;
+}
+
+
+.videoTile {
+    min-height: 250px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+
+    background: #171717;
+
+    border: 1px solid #292929;
+}
+
+
+.videoTile video {
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 250px;
+
+    object-fit: cover;
+
+    background: #111;
+}
+
+
+.localTile {
+    border: 1px solid rgba(255, 122, 0, 0.4);
+}
+
+
+.participantLabel {
+    position: absolute;
+
+    left: 14px;
+
+    bottom: 13px;
+
+    padding: 7px 10px;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    backdrop-filter: blur(8px);
+
+    font-size: 12px;
+
+    color: white;
+}
+
+
+.micStatus {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.micStatus svg {
+    font-size: 14px;
+}
+
+
+.youBadge {
+    position: absolute;
+
+    top: 13px;
+
+    right: 13px;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    background: rgba(255, 122, 0, 0.9);
+
+    color: #111;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+/* WAITING */
+
+.waitingMessage {
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+
+    pointer-events: none;
+}
+
+
+.waitingIcon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #171717;
+
+    color: #ff7a00;
+
+    border: 1px solid #2b2b2b;
+}
+
+
+.waitingIcon svg {
+    font-size: 29px;
+}
+
+
+.waitingMessage h2 {
+    font-size: 19px;
+
+    margin-bottom: 8px;
+}
+
+
+.waitingMessage p {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 18px;
+}
+
+
+.copyCodeButton {
+    pointer-events: auto;
+
+    border: 1px solid #333;
+
+    background: #151515;
+
+    color: #ddd;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+
+.copyCodeButton:hover {
+    border-color: #ff7a00;
+
+    color: #ff7a00;
+}
+
+
+.copyCodeButton svg {
+    font-size: 15px;
+}
+
+
+/* =====================================================
+   BOTTOM CONTROLS
+===================================================== */
+
+.meetingControls {
+    position: absolute;
+
+    bottom: 22px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    padding: 8px 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    border: 1px solid #2b2b2b;
+
+    border-radius: 14px;
+
+    background: rgba(21, 21, 21, 0.94);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.45);
+}
+
+
+.controlButton {
+    width: 44px !important;
+
+    height: 44px !important;
+
+    color: #ddd !important;
+
+    background: #242424 !important;
+}
+
+
+.controlButton:hover {
+    background: #333 !important;
+
+    color: white !important;
+}
+
+
+.controlButton.active {
+    background: rgba(255, 122, 0, 0.15) !important;
+
+    color: #ff7a00 !important;
+}
+
+
+.endCallButton {
+    width: 48px !important;
+
+    height: 48px !important;
+
+    margin-left: 5px !important;
+
+    color: white !important;
+
+    background: #e53935 !important;
+}
+
+
+.endCallButton:hover {
+    background: #ff4a46 !important;
+}
+
+
+/* =====================================================
+   CHAT
+===================================================== */
+
+.chatPanel {
+    position: absolute;
+
+    right: 20px;
+
+    top: 90px;
+
+    bottom: 90px;
+
+    width: 340px;
+
+    z-index: 30;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border: 1px solid #2b2b2b;
+
+    border-radius: 16px;
+
+    background: #151515;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.5);
+}
+
+
+.chatHeader {
+    padding: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+.chatHeader h2 {
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+.chatHeader span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+
+.chatHeader button {
+    border: 0;
+
+    background: transparent;
+
+    color: #777;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+
+.chatHeader button:hover {
+    color: white;
+}
+
+
+.chatMessages {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 18px;
+}
+
+
+.emptyChat {
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #666;
+}
+
+
+.emptyChat > div {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    border-radius: 50%;
+
+    background: #202020;
+}
+
+
+.emptyChat h3 {
+    margin: 0;
+
+    color: #bbb;
+
+    font-size: 14px;
+}
+
+
+.emptyChat p {
+    margin-top: 6px;
+
+    font-size: 12px;
+}
+
+
+.chatMessage {
+    max-width: 85%;
+
+    margin-bottom: 14px;
+
+    padding: 10px 12px;
+
+    border-radius: 10px;
+
+    background: #222;
+}
+
+
+.chatMessage.own {
+    margin-left: auto;
+
+    background: rgba(255, 122, 0, 0.13);
+
+    border: 1px solid rgba(255, 122, 0, 0.2);
+}
+
+
+.chatMessage span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #ff8b25;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.chatMessage p {
+    margin: 0;
+
+    color: #ddd;
+
+    font-size: 13px;
+
+    line-height: 1.45;
+
+    word-break: break-word;
+}
+
+
+.chatInput {
+    padding: 12px;
+
+    display: flex;
+
+    gap: 8px;
+
+    border-top: 1px solid #292929;
+}
+
+
+.chatInput .MuiTextField-root {
+    background: #202020;
+
+    border-radius: 8px;
+}
+
+
+.chatInput .MuiOutlinedInput-root {
+    color: white;
+
+    font-size: 13px;
+}
+
+
+.chatInput .MuiOutlinedInput-notchedOutline {
+    border-color: #333;
+}
+
+
+.chatInput input::placeholder {
+    color: #666;
+
+    opacity: 1;
+}
+
+
+.chatInput .MuiButton-root {
+    min-width: 45px;
+
+    border-radius: 8px;
+
+    background: #ff7a00;
+
+    color: #111;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .lobbyContent {
+        width: 90%;
+
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+
+        padding: 35px 0;
+    }
+
+
+    .lobbyPreview {
+        order: 2;
+    }
+
+
+    .lobbyCard {
+        order: 1;
+    }
+
+
+    .previewVideoWrapper {
+        height: 360px;
+    }
+
+
+    .previewControls {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+
+    .previewControl {
+        min-width: 0;
+        flex: 1;
+    }
+
+
+    .lobbyCard h1 {
+        font-size: 34px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .lobbyHeader {
+        padding: 0 20px;
+    }
+
+
+    .lobbySecure {
+        display: none;
+    }
+
+
+    .lobbyContent {
+        width: 92%;
+    }
+
+
+    .previewVideoWrapper {
+        height: 280px;
+    }
+
+
+    .previewControls {
+        padding: 10px;
+        gap: 8px;
+    }
+
+
+    .previewControl {
+        height: 40px;
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+
+    .previewControl svg {
+        font-size: 17px;
+    }
+
+
+    .meetingHeader {
+        padding: 0 14px;
+    }
+
+
+    .meetingInfo {
+        display: none;
+    }
+
+
+    .meetingCode {
+        display: none;
+    }
+
+
+    .meetingMain {
+        padding: 10px;
+    }
+
+
+    .videoGrid {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+    }
+
+
+    .chatPanel {
+        left: 10px;
+        right: 10px;
+
+        width: auto;
+
+        top: 80px;
+        bottom: 80px;
+    }
+
+
+    .meetingControls {
+        bottom: 12px;
+    }
+
+
+    .controlButton {
+        width: 40px !important;
+        height: 40px !important;
+    } 
+
+
+    .endCallButton {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+} 
+  

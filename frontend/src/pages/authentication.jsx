@@ -1,175 +1,620 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { AuthContext } from '../contexts/AuthContext';
-import { Snackbar } from '@mui/material';
+import * as React from "react";
 
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-// TODO remove, this demo shouldn't need to reset the theme.
+import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const defaultTheme = createTheme();
+import "./Authentication.css";
+
 
 export default function Authentication() {
 
-    
+    const navigate = useNavigate();
 
-    const [username, setUsername] = React.useState();
-    const [password, setPassword] = React.useState();
-    const [name, setName] = React.useState();
-    const [error, setError] = React.useState();
-    const [message, setMessage] = React.useState();
+    // =========================
+    // FORM STATES
+    // =========================
 
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [name, setName] = React.useState("");
 
+    const [error, setError] = React.useState("");
+    const [message, setMessage] = React.useState("");
+
+    // 0 = Sign In
+    // 1 = Sign Up
     const [formState, setFormState] = React.useState(0);
 
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+
+    const [showPassword, setShowPassword] = React.useState(false);
 
 
-    const { handleRegister, handleLogin } = React.useContext(AuthContext);
+    const { handleRegister, handleLogin } =
+        React.useContext(AuthContext);
 
-    let handleAuth = async () => {
+
+    // =========================
+    // LOGIN / REGISTER
+    // =========================
+
+    const handleAuth = async () => {
+
         try {
+
+            setError("");
+
+            // SIGN IN
             if (formState === 0) {
 
-                let result = await handleLogin(username, password)
-
+                await handleLogin(
+                    username,
+                    password
+                );
 
             }
-            if (formState === 1) {
-                let result = await handleRegister(name, username, password);
+
+            // SIGN UP
+            else {
+
+                const result = await handleRegister(
+                    name,
+                    username,
+                    password
+                );
+
                 console.log(result);
+
                 setUsername("");
+                setPassword("");
+                setName("");
+
                 setMessage(result);
                 setOpen(true);
-                setError("")
-                setFormState(0)
-                setPassword("")
+
+                // After successful registration,
+                // switch to Sign In
+                setFormState(0);
             }
+
         } catch (err) {
 
             console.log(err);
-            let message = (err.response.data.message);
-            setError(message);
+
+            const errorMessage =
+                err?.response?.data?.message ||
+                "Something went wrong. Please try again.";
+
+            setError(errorMessage);
         }
-    }
+    };
+
+
+    // =========================
+    // SWITCH TO SIGN IN
+    // =========================
+
+    const handleSignInTab = () => {
+
+        setFormState(0);
+        setError("");
+
+    };
+
+
+    // =========================
+    // SWITCH TO SIGN UP
+    // =========================
+
+    const handleSignUpTab = () => {
+
+        setFormState(1);
+        setError("");
+
+    };
 
 
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
-                <Grid
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
+
+        <div className="authPage">
 
 
-                        <div>
-                            <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0) }}>
-                                Sign In
-                            </Button>
-                            <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1) }}>
-                                Sign Up
-                            </Button>
+            {/* =========================================
+                LEFT SIDE
+            ========================================= */}
+
+            <section className="authVisual">
+
+
+                {/* BACK BUTTON */}
+
+                <button
+                    type="button"
+                    className="backButton"
+                    onClick={() => navigate("/")}
+                >
+
+                    <ArrowBackIcon />
+
+                    Back
+
+                </button>
+
+
+                {/* BRAND */}
+
+                <div className="authBrand">
+
+                    <div className="authLogo">
+
+                        <VideocamIcon />
+
+                    </div>
+
+
+                    <div className="authBrandName">
+
+                        Meet<span>ora</span>
+
+                    </div>
+
+                </div>
+
+
+                {/* LEFT CONTENT */}
+
+                <div className="authVisualContent">
+
+
+                    <div className="authBadge">
+
+                        <span></span>
+
+                        SIMPLE. PRIVATE. CONNECTED.
+
+                    </div>
+
+
+                    <h1>
+
+                        Meetings that
+                        <br />
+
+                        <span>feel personal.</span>
+
+                    </h1>
+
+
+                    <p>
+
+                        Connect with your people through
+                        simple, reliable video calls.
+
+                    </p>
+
+
+                    {/* =================================
+                        MINI MEETING CARD
+                    ================================= */}
+
+                    <div className="miniMeeting">
+
+
+                        <div className="miniMeetingHeader">
+
+                            <div>
+
+                                <span className="liveDot"></span>
+
+                                Team Meeting
+
+                            </div>
+
+
+                            <span>
+                                •••
+                            </span>
+
                         </div>
 
-                        <Box component="form" noValidate sx={{ mt: 1 }}>
-                            {formState === 1 ? <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="Full Name"
-                                name="username"
-                                value={name}
-                                autoFocus
-                                onChange={(e) => setName(e.target.value)}
-                            /> : <></>}
+
+                        <div className="miniVideos">
+
+
+                            {/* MAIN PERSON */}
+
+                            <div className="miniPerson personOne">
+
+                                <div className="miniHead"></div>
+
+                                <div className="miniBody"></div>
+
+                            </div>
+
+
+                            {/* SIDE PEOPLE */}
+
+                            <div className="miniSide">
+
+
+                                <div className="miniPerson personTwo">
+
+                                    <div className="miniHead"></div>
+
+                                    <div className="miniBody"></div>
+
+                                </div>
+
+
+                                <div className="miniPerson personThree">
+
+                                    <div className="miniHead"></div>
+
+                                    <div className="miniBody"></div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        {/* CONTROLS */}
+
+                        <div className="miniControls">
+
+                            <span>●</span>
+
+                            <span>▣</span>
+
+                            <span>□</span>
+
+                            <span>●</span>
+
+                            <span className="miniEnd">
+                                ☎
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div className="authFooter">
+
+                    © 2026 Meetora
+
+                </div>
+
+
+            </section>
+
+
+            {/* =========================================
+                RIGHT SIDE
+            ========================================= */}
+
+            <section className="authFormPanel">
+
+
+                <div className="authFormContainer">
+
+
+                    {/* MOBILE BRAND */}
+
+                    <div className="mobileAuthBrand">
+
+                        <div className="authLogo">
+
+                            <VideocamIcon />
+
+                        </div>
+
+
+                        <div className="authBrandName">
+
+                            Meet<span>ora</span>
+
+                        </div>
+
+                    </div>
+
+
+                    {/* HEADING */}
+
+                    <div className="authHeading">
+
+                        <h2>
+
+                            {formState === 0
+                                ? "Welcome back"
+                                : "Create your account"}
+
+                        </h2>
+
+
+                        <p>
+
+                            {formState === 0
+                                ? "Sign in to continue to Meetora"
+                                : "Create an account and start connecting"}
+
+                        </p>
+
+                    </div>
+
+
+                    {/* =================================
+                        SIGN IN / SIGN UP TABS
+                    ================================= */}
+
+                    <div className="authTabs">
+
+
+                        <button
+                            type="button"
+                            className={
+                                formState === 0
+                                    ? "active"
+                                    : ""
+                            }
+                            onClick={handleSignInTab}
+                        >
+
+                            Sign In
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            className={
+                                formState === 1
+                                    ? "active"
+                                    : ""
+                            }
+                            onClick={handleSignUpTab}
+                        >
+
+                            Sign Up
+
+                        </button>
+
+
+                    </div>
+
+
+                    {/* =================================
+                        FORM
+                    ================================= */}
+
+                    <div className="authForm">
+
+
+                        {/* FULL NAME */}
+
+                        {formState === 1 && (
+
+                            <div className="fieldGroup">
+
+                                <label>
+                                    Full Name
+                                </label>
+
+
+                                <TextField
+                                    fullWidth
+                                    placeholder="Enter your name"
+                                    value={name}
+                                    onChange={(e) =>
+                                        setName(
+                                            e.target.value
+                                        )
+                                    }
+                                />
+
+                            </div>
+
+                        )}
+
+
+                        {/* USERNAME */}
+
+                        <div className="fieldGroup">
+
+                            <label>
+                                Username
+                            </label>
+
 
                             <TextField
-                                margin="normal"
-                                required
                                 fullWidth
-                                id="username"
-                                label="Username"
-                                name="username"
+                                placeholder="Enter your username"
                                 value={username}
-                                autoFocus
-                                onChange={(e) => setUsername(e.target.value)}
-
+                                onChange={(e) =>
+                                    setUsername(
+                                        e.target.value
+                                    )
+                                }
                             />
+
+                        </div>
+
+
+                        {/* PASSWORD */}
+
+                        <div className="fieldGroup">
+
+                            <label>
+                                Password
+                            </label>
+
+
                             <TextField
-                                margin="normal"
-                                required
                                 fullWidth
-                                name="password"
-                                label="Password"
+                                placeholder="Enter your password"
+                                type={
+                                    showPassword
+                                        ? "text"
+                                        : "password"
+                                }
                                 value={password}
-                                type="password"
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) =>
+                                    setPassword(
+                                        e.target.value
+                                    )
+                                }
 
-                                id="password"
+
+                                InputProps={{
+
+                                    endAdornment: (
+
+                                        <InputAdornment position="end">
+
+                                            <IconButton
+                                                type="button"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
+                                                edge="end"
+                                            >
+
+                                                {showPassword
+                                                    ? <VisibilityOffIcon />
+                                                    : <VisibilityIcon />
+                                                }
+
+                                            </IconButton>
+
+                                        </InputAdornment>
+
+                                    )
+
+                                }}
+
                             />
 
-                            <p style={{ color: "red" }}>{error}</p>
+                        </div>
 
-                            <Button
+
+                        {/* ERROR */}
+
+                        {error && (
+
+                            <div className="authError">
+
+                                {error}
+
+                            </div>
+
+                        )}
+
+
+                        {/* =================================
+                            SUBMIT BUTTON
+                        ================================= */}
+
+                        <Button
+                            type="button"
+                            fullWidth
+                            className="authSubmit"
+                            onClick={handleAuth}
+                        >
+
+                            {formState === 0
+                                ? "Sign In"
+                                : "Create Account"}
+
+
+                            <span>
+                                →
+                            </span>
+
+                        </Button>
+
+
+                        {/* =================================
+                            BOTTOM SWITCH
+                        ================================= */}
+
+                        <p className="authSwitch">
+
+
+                            {formState === 0
+                                ? "Don't have an account?"
+                                : "Already have an account?"}
+
+
+                            <button
                                 type="button"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                onClick={handleAuth}
-                            >
-                                {formState === 0 ? "Login " : "Register"}
-                            </Button>
+                                onClick={() => {
 
-                        </Box>
-                    </Box>
-                </Grid>
-            </Grid>
+                                    setError("");
+
+                                    if (formState === 0) {
+
+                                        setFormState(1);
+
+                                    } else {
+
+                                        setFormState(0);
+
+                                    }
+
+                                }}
+                            >
+
+                                {formState === 0
+                                    ? " Sign Up"
+                                    : " Sign In"}
+
+                            </button>
+
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            {/* SUCCESS MESSAGE */}
 
             <Snackbar
-
                 open={open}
                 autoHideDuration={4000}
+                onClose={() => setOpen(false)}
                 message={message}
             />
 
-        </ThemeProvider>
+
+        </div>
+
     );
-}
+
+} 

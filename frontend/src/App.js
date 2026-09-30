@@ -1,5 +1,6 @@
 import './App.css';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+
 import LandingPage from './pages/landing';
 import Authentication from './pages/authentication';
 import { AuthProvider } from './contexts/AuthContext';
@@ -8,29 +9,53 @@ import HomeComponent from './pages/home';
 import History from './pages/history';
 
 function App() {
-  return (
-    <div className="App">
+    return (
+        <div className="App">
 
-      <Router>
+            <Router>
 
-        <AuthProvider>
+                <AuthProvider>
 
+                    <Routes>
 
-          <Routes>
+                        {/* Landing Page */}
+                        <Route
+                            path="/"
+                            element={<LandingPage />}
+                        />
 
-            <Route path='/' element={<LandingPage />} />
+                        {/* Login / Register */}
+                        <Route
+                            path="/auth"
+                            element={<Authentication />}
+                        />
 
-            <Route path='/auth' element={<Authentication />} />
+                        {/* Home */}
+                        <Route
+                            path="/home"
+                            element={<HomeComponent />}
+                        />
 
-            <Route path='/home's element={<HomeComponent />} />
-            <Route path='/history' element={<History />} />
-            <Route path='/:url' element={<VideoMeetComponent />} />
-          </Routes>
-        </AuthProvider>
+                        {/* Meeting History */}
+                        <Route
+                            path="/history"
+                            element={<History />}
+                        />
 
-      </Router>
-    </div>
-  );
+                        {/* Video Meeting */}
+                        <Route
+                            path="/:url"
+                            element={<VideoMeetComponent />}
+                        />
+
+                    </Routes>
+
+                </AuthProvider>
+
+            </Router>
+
+        </div>
+    );
 }
 
-export default App;
+export default App; 
